@@ -1,6 +1,6 @@
 ---
 title: "Econ 204: HW 3"
-author: "Sydney Mayes"
+author: "Jenna Anderson, Sydney Mayes"
 date: "2023-05-15"
 output:  
   html_document:
