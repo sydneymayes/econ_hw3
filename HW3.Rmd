@@ -1,0 +1,18 @@
+---
+title: "Econ 204: HW 3"
+author: "Sydney Mayes"
+date: "2023-05-15"
+output:  
+  html_document:
+    theme: simplex
+    code_folding: hide
+---
+
+```{r setup,  include = TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, results = FALSE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(equatiomatic)
+```
+
