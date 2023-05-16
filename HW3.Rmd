@@ -16,3 +16,35 @@ library(janitor)
 library(equatiomatic)
 ```
 
+```{r}
+# Cleaning and tidying data
+ca_ev <- read_csv(here('HW3_data.csv')) %>% 
+  clean_names()
+long_ca_ev <- pivot_longer(ca_ev, cols = q_dac:q_non_dac, names_to = 'location', values_to = 'quantity')
+```
+
+```{r}
+# Run linear regressions
+dac_model <- lm(quantity ~ 0 + price_dollars, data = filter(long_ca_ev, location == 'q_dac'))
+dac_slope <- dac_model$coefficients
+
+
+ggplot(data = long_ca_ev)
+
+non_dac_model <- lm(quantity ~ 0 + price_dollars, data = filter(long_ca_ev, location == 'q_non_dac'))
+non_dac_slope <- non_dac_model$coefficients
+# p = 2.017*q
+
+
+ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) +
+  geom_point() +
+  geom_abline(slope = dac_slope) +
+  geom_abline(slope = non_dac_slope) +
+  #facet_wrap(~uc, ncol = 2) +
+  scale_color_viridis_d() +
+  labs(x = 'Tons of Carbon Abated', y = 'Price in dollars/ton of Carbon' ) +
+  theme_bw()
+
+
+```
+
