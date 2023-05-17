@@ -23,28 +23,45 @@ ca_ev <- read_csv(here('HW3_data.csv')) %>%
 long_ca_ev <- pivot_longer(ca_ev, cols = q_dac:q_non_dac, names_to = 'location', values_to = 'quantity')
 ```
 
+1.
 ```{r}
 # Run linear regressions
-dac_model <- lm(quantity ~ 0 + price_dollars, data = filter(long_ca_ev, location == 'q_dac'))
-dac_slope <- dac_model$coefficients
+dac_model <- lm(price_dollars ~ quantity, data = filter(long_ca_ev, location == 'q_dac'))
+dac_model$coefficients
 
+non_dac_model <- lm(price_dollars ~ quantity, data = filter(long_ca_ev, location == 'q_non_dac'))
+non_dac_model$coefficients
 
-ggplot(data = long_ca_ev)
-
-non_dac_model <- lm(quantity ~ 0 + price_dollars, data = filter(long_ca_ev, location == 'q_non_dac'))
-non_dac_slope <- non_dac_model$coefficients
-# p = 2.017*q
-
-
+# Plot the data
 ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) +
   geom_point() +
-  geom_abline(slope = dac_slope) +
-  geom_abline(slope = non_dac_slope) +
-  #facet_wrap(~uc, ncol = 2) +
+  geom_abline(slope = -6.611437, intercept = 116854.835741) +
+  geom_abline(slope = -2.730926, intercept = 158034.280239) +
+  #geom_abline(slope = -4.652827, intercept = 351488.7) +
   scale_color_viridis_d() +
-  labs(x = 'Tons of Carbon Abated', y = 'Price in dollars/ton of Carbon' ) +
+  labs(x = 'Number of EVs', y = 'Price of EV' ) +
   theme_bw()
 
+# When we visualize the data, it appears that non-DAC groups demand more EVs at every price point than do non-DAC groups. This may be because non-DAC groups have higher incomes than DAC groups. DAC groups have a much lower willingness to pay than non-DAC groups. An interesting thing to note is that the DAC groups seem to have a more inelastic demand curve than non-DAC groups. This means that with a price increase, non-DAC groups will demand fewer EVs, whereas this effect is not as strong with DAC groups; they will demand fewer EVs with a price increase but not by as large a degree as DAC groups. It is possible that non-DAC groups can afford to wait and see whether the prices drop again in the future whereas DAC groups feel like if they have the opportunity, it is better to not hesitate and purchase an EV in case their financial situation changes in the future.
+```
+2. 18,900 dollars per EV
+```{r}
+# Marginal externaliity cost is 63 kg * 300 dollars = 18,900 dollars per EV
+```
 
+3.
+```{r}
+#3. What is the aggregate annual demand curve for EVs? What is the supply curve for EVs? What is the “benefit” to consumers under the status quo? What is the “benefit” to producers under the status quo? What is the environmental cost under the status quo?
+
+# q = -116854.835741/-6.611437 - p/-6.611437 (dac)
+# q = -158034.280239/-2.730926 - p/-2.730926 (non-dac)
+# q = 17674.65 + 57868.39 - .2149231p (aggregate)
+# q = 75543.04 - .2149231p (aggregate)
+# p = 75543.04/.2149231 - q/.2149231
+# p_agg = - q/.2149231 + 351488.7
+
+# Aggregate annual demand curve is P = -4.652827*Q + 351488.7
+# Supply curve for EVs is P = 50,000*Q
+# 
 ```
 
