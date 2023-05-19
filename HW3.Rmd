@@ -84,11 +84,18 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
 # Benefit to consumers under status quo is (39559.58)*(158034.280239-50000.)*(1/2) = 2136895376 for non-DAC
 # Benefit to consumers under status quo is (10112)*(116854.835741-50000.02)*(1/2) = 338017948 for DAC 
 # Aggregate benefit is 2,474,913,324
-# Benefit to producers surplus under status quo is 1.2 bil
+# Benefit to producers surplus under status quo is 1/2*50000*49671.58 = 1241789500
 # Environmental cost = external cost amount times 49671.58
 # 18,900 * 49671.58
 ```
 
+4.
+```{r}
+
+```
+
+
+5.
 ```{r}
 #Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
 # (a) The amount of EVs produced and consumed (b) The price of EVs
@@ -115,7 +122,6 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
 # Now, assume that all revenue from the EV tax will be redistributed to the consumers in proportion to their pre-tax consumption. For example, if 80% of the EVs were consumed by non-DAC consumers, then they get 80% of the tax revenue. Additionally, consider that emerging scientific evidence suggests the true environmental damages from lithium mining may be much higher than $300. For a range of values of external costs per kg of lithium ($350, $400, $450, and $500 per kg), calculate the effects of an EV tax on:1
 # (a) Overall welfare of non-DAC consumers (b) Overall welfare of DAC consumers
 # (c) EV producers 
-
 
 
 
