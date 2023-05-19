@@ -53,15 +53,75 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
 ```{r}
 #3. What is the aggregate annual demand curve for EVs? What is the supply curve for EVs? What is the “benefit” to consumers under the status quo? What is the “benefit” to producers under the status quo? What is the environmental cost under the status quo?
 
-# q = -116854.835741/-6.611437 - p/-6.611437 (dac)
-# q = -158034.280239/-2.730926 - p/-2.730926 (non-dac)
-# q = 17674.65 + 57868.39 - .2149231p (aggregate)
-# q = 75543.04 - .2149231p (aggregate)
-# p = 75543.04/.2149231 - q/.2149231
-# p_agg = - q/.2149231 + 351488.7
+# p = -6.611437q + 116854.835741 (dac)
+# 6.611437q = 116854.835741 - p
+# q = 116854.835741/6.611437 - p/6.611437
+# q = 17674.65 - 0.151253*p (dac)
 
-# Aggregate annual demand curve is P = -4.652827*Q + 351488.7
-# Supply curve for EVs is P = 50,000*Q
-# 
+
+# p = -2.730926q + 158034.280239
+# 2.730926q = 158034.280239 - p 
+# q = 158034.280239/2.730926 - p/2.730926
+# q = 57868.39 - 0.3661762*p (non_dac)
+
+
+# q = 17674.65 - 0.151253*p (dac)
+# q = 57868.39 - 0.3661762*p (non_dac)
+# q = 75543.04 - 0.5174292*p (agg)
+# 0.5174292*p = 75543.04 - q
+# p = 75543.04/0.5174292 - q/0.5174292
+# p = 145996.9 - 1.932632*q (agg)
+
+
+# Aggregate annual demand curve is p = 145996.9 - 1.932632*q
+# Slope of supply curve = 50000/49671.59 = 1.006612
+# Supply curve for EVs is P = 1.006612*Q
+# 1.006612*q = 145996.9 - 1.932632*q (when supply curve = d_agg)
+# 2.939244*q = 145996.9
+# q = 49671.58
+
+
+# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000.)*(1/2) = 2136895376 for non-DAC
+# Benefit to consumers under status quo is (10112)*(116854.835741-50000.02)*(1/2) = 338017948 for DAC 
+# Aggregate benefit is 2,474,913,324
+# Benefit to producers surplus under status quo is 1.2 bil
+# Environmental cost = external cost amount times 49671.58
+# 18,900 * 49671.58
 ```
+
+```{r}
+#Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
+# (a) The amount of EVs produced and consumed (b) The price of EVs
+# (c) Overall welfare of non-DAC consumers (d) Overall welfare of DAC consumers
+# (e) EV producers
+# (f) Total environmental damage
+# (g) Total tax revenue generated
+
+# New supply curve
+# p = 1.006612*Q + 18,900
+
+# a) Quantity of EVs will decrease
+# b) 50000 + 18,900
+
+
+
+
+```
+
+
+
+6. 
+```{r}
+# Now, assume that all revenue from the EV tax will be redistributed to the consumers in proportion to their pre-tax consumption. For example, if 80% of the EVs were consumed by non-DAC consumers, then they get 80% of the tax revenue. Additionally, consider that emerging scientific evidence suggests the true environmental damages from lithium mining may be much higher than $300. For a range of values of external costs per kg of lithium ($350, $400, $450, and $500 per kg), calculate the effects of an EV tax on:1
+# (a) Overall welfare of non-DAC consumers (b) Overall welfare of DAC consumers
+# (c) EV producers 
+
+
+
+
+
+```
+
+
+
 
