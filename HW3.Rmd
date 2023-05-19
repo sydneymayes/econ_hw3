@@ -160,7 +160,7 @@ dac_demand_q(50000)*(116854.835741-50000)*(1/2) # 338017973
 (1/2)*(50000)*(agg_demand(50000)) # 1241789394
 
 # Environmental cost 
-18900 * agg_demand(50000)  # 938792782
+env_cost <- 18900 * agg_demand(50000)  # 938792782
 
 
 
@@ -237,7 +237,7 @@ non_dac_demand_q(68900)*(158034.280239-68900)*(1/2) # 1454620139
 dac_demand_q(68900)*(116854.835741-68900)*(1/2) # 173915767
 338017973-173915767 # 164102206
 # Now assume the mining externality applies only to dac
-env_tax <- agg_demand(68900)*18900 # 753961894
+env_cost_plus_tax <- agg_demand(68900)*18900 # 753961894
 
 -753961894 + 173915767 = -580046127
 
@@ -246,7 +246,7 @@ env_tax <- agg_demand(68900)*18900 # 753961894
  1241789394 - 1374285039 #  -132495645
  
 # f) Total environmental damage
-total_damage <- (18900 * agg_demand(50000)) - env_tax
+total_damage <- env_cost - env_cost_plus_tax
 # 184830888
 
 # g) Total tax revenue generated is the same as the total environmental damage because MEC is stable
@@ -255,12 +255,16 @@ total_damage <- (18900 * agg_demand(50000)) - env_tax
 
 
 
-6. 
-```{r}
-# Now, assume that all revenue from the EV tax will be redistributed to the consumers in proportion to their pre-tax consumption. For example, if 80% of the EVs were consumed by non-DAC consumers, then they get 80% of the tax revenue. Additionally, consider that emerging scientific evidence suggests the true environmental damages from lithium mining may be much higher than $300. For a range of values of external costs per kg of lithium ($350, $400, $450, and $500 per kg), calculate the effects of an EV tax on:1
-# (a) Overall welfare of non-DAC consumers (b) Overall welfare of DAC consumers
-# (c) EV producers 
+6.  Now, assume that all revenue from the EV tax will be redistributed to the consumers in proportion to their pre-tax consumption. For example, if 80% of the EVs were consumed by non-DAC consumers, then they get 80% of the tax revenue. Additionally, consider that emerging scientific evidence suggests the true environmental damages from lithium mining may be much higher than $300. For a range of values of external costs per kg of lithium ($350, $400, $450, and $500 per kg), calculate the effects of an EV tax on:
 
+(a) Overall welfare of non-DAC consumers
+(b) Overall welfare of DAC consumers
+(c) EV producers
+
+```{r}
+# We highly recommend writing a function that takes as an input the marginal external cost and produces as output the welfare of the three groups (non-DAC consumers, DAC consumers, and EV producers) so that you can automatically answer items (a)-(c) without recomputing by hand each time.
+
+welfare <- function()
 
 
 ```
