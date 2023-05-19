@@ -49,53 +49,115 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
 # Marginal externaliity cost is 63 kg * 300 dollars = 18,900 dollars per EV
 ```
 
-3.
-```{r}
-#3. What is the aggregate annual demand curve for EVs? What is the supply curve for EVs? What is the “benefit” to consumers under the status quo? What is the “benefit” to producers under the status quo? What is the environmental cost under the status quo?
+3. 
+What is the aggregate annual demand curve for EVs? 
+Aggregate annual demand curve is p = 145996.9 - 1.932632*q
 
+What is the supply curve for EVs? 
+
+What is the “benefit” to consumers under the status quo? 
+Aggregate benefit to consumers (dac + nondac) is 2,474,913,426 dollars 
+
+What is the “benefit” to producers under the status quo?
+Aggregate benefit to producers (dac + nondac) is 1,241,789,500 dollars
+
+What is the environmental cost under the status quo?
+938,792,862 dollars
+
+```{r}
+# Dac demand function
 # p = -6.611437q + 116854.835741 (dac)
+# Putting in in terms of q
 # 6.611437q = 116854.835741 - p
 # q = 116854.835741/6.611437 - p/6.611437
 # q = 17674.65 - 0.151253*p (dac)
 
-
+# Non-dac demand function 
 # p = -2.730926q + 158034.280239
+# Putting it in terms of q
 # 2.730926q = 158034.280239 - p 
 # q = 158034.280239/2.730926 - p/2.730926
 # q = 57868.39 - 0.3661762*p (non_dac)
 
-
-# q = 17674.65 - 0.151253*p (dac)
-# q = 57868.39 - 0.3661762*p (non_dac)
+# Add dac demand function + non-dac demand function to create aggregate function
+# q = 17674.65 - 0.151253*p (dac) +
+# q = 57868.39 - 0.3661762*p (non_dac) = 
 # q = 75543.04 - 0.5174292*p (agg)
+# Putting it in terms of q
 # 0.5174292*p = 75543.04 - q
 # p = 75543.04/0.5174292 - q/0.5174292
 # p = 145996.9 - 1.932632*q (agg)
-
-
 # Aggregate annual demand curve is p = 145996.9 - 1.932632*q
+
 # Slope of supply curve = 50000/49671.59 = 1.006612
 # Supply curve for EVs is P = 1.006612*Q
 # 1.006612*q = 145996.9 - 1.932632*q (when supply curve = d_agg)
 # 2.939244*q = 145996.9
 # q = 49671.58
 
-
-# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000.)*(1/2) = 2136895376 for non-DAC
-# Benefit to consumers under status quo is (10112)*(116854.835741-50000.02)*(1/2) = 338017948 for DAC 
+# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000)*(1/2) = 2136895376 for non-DAC
+# Benefit to consumers under status quo is (10112)*(116854.835741-50000)*(1/2) = 338018050 for DAC 
 # Aggregate benefit is 2,474,913,324
 # Benefit to producers surplus under status quo is 1/2*50000*49671.58 = 1241789500
 # Environmental cost = external cost amount times 49671.58
-# 18,900 * 49671.58
+# 18900 * 49671.58 = 938792862
+
+# In code below
+dac_demand <- function(q) {
+  p = -6.611437*q + 116854.835741
+  return(p)
+}
+
+dac_demand_q <- function(p){
+  q = 17674.65 - 0.151253*p
+  return(q)
+}
+
+non_dac_demand <- function(q){
+  p = -2.730926*q + 158034.280239
+  return(p)
+}
+non_dac_demand_q <- function(p) {
+  q = 57868.39 - 0.3661762*p
+  return(q)
+}
+
+
+agg_demand <- function(p) {
+  if (p > 158034.280239) {
+    non_dac_demand_q(p)
+  }
+  else {
+    dac_demand_q(p) + non_dac_demand_q(p)
+  }
+}
+
+agg_demand(p = 0)
+
 ```
 
-4.
+4. How is the current consumer benefit divided between DAC and non-DAC consumers?
+Dac consumers get 15.8 % of consumer benefit
+Non-dac consumers get 84.2 % of consumer benefit
+
 ```{r}
+# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000)*(1/2) = 2136895376 for non-DAC
+# Benefit to consumers under status quo is (10112)*(116854.835741-50000)*(1/2) = 338018050 for DAC 
+# 338018050/2136895376
+# 15.8 %
+# 84.2 %
 
+  
 ```
 
 
-5.
+5. Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
+(a) The amount of EVs produced and consumed (b) The price of EVs
+(c) Overall welfare of non-DAC consumers (d) Overall welfare of DAC consumers
+(e) EV producers
+(f) Total environmental damage
+(g) Total tax revenue generated
+
 ```{r}
 #Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
 # (a) The amount of EVs produced and consumed (b) The price of EVs
