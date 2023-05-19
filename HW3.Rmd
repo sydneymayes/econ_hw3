@@ -23,7 +23,13 @@ ca_ev <- read_csv(here('HW3_data.csv')) %>%
 long_ca_ev <- pivot_longer(ca_ev, cols = q_dac:q_non_dac, names_to = 'location', values_to = 'quantity')
 ```
 
-1.
+1. Run linear regressions (with an intercept) to estimate the demand curves for DAC and non-DAC consumers. What are 2-3 reasons you can think that may explain the differences in demand you estimate?
+
+*Demand curve for DAC: p = -6.611437q + 116854.835741*
+*Demand curve for non-DAC: p = -2.730926q + 158034.280239*
+
+When we visualize the data, it appears that non-DAC groups demand more EVs at every price point than do non-DAC groups. This may be because non-DAC groups have higher incomes than DAC groups; DAC groups have a much lower willingness to pay than non-DAC groups. An interesting thing to note is that the DAC groups seem to have a more inelastic demand curve than non-DAC groups. This means that with a price increase, non-DAC groups will demand fewer EVs, whereas this effect is not as strong with DAC groups; they will demand fewer EVs with a price increase but not by as large a degree as DAC groups. It is possible that non-DAC groups can afford to wait and see whether the prices drop again in the future whereas DAC groups feel like if they have the opportunity, it is better to not hesitate and purchase an EV in case their financial situation changes in the future.
+
 ```{r}
 # Run linear regressions
 dac_model <- lm(price_dollars ~ quantity, data = filter(long_ca_ev, location == 'q_dac'))
@@ -42,86 +48,81 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
   labs(x = 'Number of EVs', y = 'Price of EV' ) +
   theme_bw()
 
-# When we visualize the data, it appears that non-DAC groups demand more EVs at every price point than do non-DAC groups. This may be because non-DAC groups have higher incomes than DAC groups. DAC groups have a much lower willingness to pay than non-DAC groups. An interesting thing to note is that the DAC groups seem to have a more inelastic demand curve than non-DAC groups. This means that with a price increase, non-DAC groups will demand fewer EVs, whereas this effect is not as strong with DAC groups; they will demand fewer EVs with a price increase but not by as large a degree as DAC groups. It is possible that non-DAC groups can afford to wait and see whether the prices drop again in the future whereas DAC groups feel like if they have the opportunity, it is better to not hesitate and purchase an EV in case their financial situation changes in the future.
 ```
-2. 18,900 dollars per EV
+2. One kilogram (kg) of lithium is estimated to cause $300 dollars worth of damage in health costs to local communities living near mines. Each EV requires a lithium ion battery containing 63kg of lithium. Assuming there are no other externalities caused by EV production, what is the marginal externality cost per EV produced?
+
+*18,900 dollars per EV*
+
 ```{r}
 # Marginal externaliity cost is 63 kg * 300 dollars = 18,900 dollars per EV
+63*300
 ```
 
 3. 
 What is the aggregate annual demand curve for EVs? 
-Aggregate annual demand curve is p = 145996.9 - 1.932632*q
+
+If Price > 116854.835741: q = (158034.280239 - p)/2.730926
+or in terms of p: p = -2.730926*q + 158034.280239
+
+If Price <= 116854.835741: q = 75543.04 - 0.5174292(p)
+or in terms of p: p = 145996.9 - q/0.5174292
 
 What is the supply curve for EVs? 
+p = 1.006612*q
 
 What is the “benefit” to consumers under the status quo? 
-Aggregate benefit to consumers (dac + nondac) is 2,474,913,426 dollars 
+Aggregate benefit to consumers (dac + nondac) is 2,474,913,243 
 
 What is the “benefit” to producers under the status quo?
-Aggregate benefit to producers (dac + nondac) is 1,241,789,500 dollars
+Aggregate benefit to producers (dac + nondac) is 1,241,789,394 dollars
 
 What is the environmental cost under the status quo?
-938,792,862 dollars
+938,792,782 dollars
 
 ```{r}
 # Dac demand function
 # p = -6.611437q + 116854.835741 (dac)
 # Putting in in terms of q
 # 6.611437q = 116854.835741 - p
-# q = 116854.835741/6.611437 - p/6.611437
-# q = 17674.65 - 0.151253*p (dac)
+# q = (116854.835741 - p)/6.611437
 
-# Non-dac demand function 
-# p = -2.730926q + 158034.280239
-# Putting it in terms of q
-# 2.730926q = 158034.280239 - p 
-# q = 158034.280239/2.730926 - p/2.730926
-# q = 57868.39 - 0.3661762*p (non_dac)
-
-# Add dac demand function + non-dac demand function to create aggregate function
-# q = 17674.65 - 0.151253*p (dac) +
-# q = 57868.39 - 0.3661762*p (non_dac) = 
-# q = 75543.04 - 0.5174292*p (agg)
-# Putting it in terms of q
-# 0.5174292*p = 75543.04 - q
-# p = 75543.04/0.5174292 - q/0.5174292
-# p = 145996.9 - 1.932632*q (agg)
-# Aggregate annual demand curve is p = 145996.9 - 1.932632*q
-
-# Slope of supply curve = 50000/49671.59 = 1.006612
-# Supply curve for EVs is P = 1.006612*Q
-# 1.006612*q = 145996.9 - 1.932632*q (when supply curve = d_agg)
-# 2.939244*q = 145996.9
-# q = 49671.58
-
-# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000)*(1/2) = 2136895376 for non-DAC
-# Benefit to consumers under status quo is (10112)*(116854.835741-50000)*(1/2) = 338018050 for DAC 
-# Aggregate benefit is 2,474,913,324
-# Benefit to producers surplus under status quo is 1/2*50000*49671.58 = 1241789500
-# Environmental cost = external cost amount times 49671.58
-# 18900 * 49671.58 = 938792862
-
-# In code below
 dac_demand <- function(q) {
   p = -6.611437*q + 116854.835741
   return(p)
 }
 
-dac_demand_q <- function(p){
-  q = 17674.65 - 0.151253*p
+dac_demand_q <- function(p) {
+  q = (116854.835741 - p)/6.611437
   return(q)
 }
+
+# Non-dac demand function 
+# p = -2.730926q + 158034.280239
+# Putting it in terms of q
+# 2.730926q = 158034.280239 - p 
+# q = (158034.280239-p)/2.730926
+
 
 non_dac_demand <- function(q){
   p = -2.730926*q + 158034.280239
   return(p)
 }
+
 non_dac_demand_q <- function(p) {
-  q = 57868.39 - 0.3661762*p
+  q = (158034.280239-p)/2.730926
   return(q)
 }
 
+# Add dac demand function + non-dac demand function to create aggregate function
+# q = (116854.835741 - p)/6.611437 (dac) +
+# q = (158034.280239-p)/2.730926 (non_dac) = 
+# q = 75543.04 - 0.5174292*p (agg)
+
+# Putting it in terms of q
+# 0.5174292*p = 75543.04 - q
+# p = 75543.04/0.5174292 - q/0.5174292
+# p = 145996.9 - 1.932632*q (agg)
+# Aggregate annual demand curve is p = 145996.9 - 1.932632*q
 
 agg_demand <- function(p) {
   if (p > 158034.280239) {
@@ -132,48 +133,123 @@ agg_demand <- function(p) {
   }
 }
 
-agg_demand(p = 0)
+# agg_demand(p = 0)
+
+# Supply curve
+agg_demand(50000) # 49671.58
+supply_slope <- 50000/agg_demand(50000)
+supply_slope # 1.006612
+
+# Slope of supply curve = 50000/49671.59 = 1.006612
+# Supply curve for EVs is P = 1.006612*Q
+# 1.006612*q = 145996.9 - 1.932632*q (when supply curve = d_agg)
+# 2.939244*q = 145996.9
+# q = 49671.58
+
+# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000)*(1/2) for non-DAC
+non_dac_demand_q(50000)*(158034.280239-50000)*(1/2) # 2136895270
+
+# Benefit to consumers under status quo is (10112)*(116854.835741-50000)*(1/2) for DAC
+dac_demand_q(50000)*(116854.835741-50000)*(1/2) # 338017973
+
+
+# Aggregate benefit is 2136895270 + 338017973 = 2474913243 
+
+
+# Benefit to producers surplus under status quo:
+(1/2)*(50000)*(agg_demand(50000)) # 1241789394
+
+# Environmental cost 
+18900 * agg_demand(50000)  # 938792782
+
+
+
+
+
 
 ```
 
 4. How is the current consumer benefit divided between DAC and non-DAC consumers?
-Dac consumers get 15.8 % of consumer benefit
-Non-dac consumers get 84.2 % of consumer benefit
+Dac consumers get 13.66 % of consumer benefit
+Non-dac consumers get 86.32 % of consumer benefit
 
 ```{r}
-# Benefit to consumers under status quo is (39559.58)*(158034.280239-50000)*(1/2) = 2136895376 for non-DAC
-# Benefit to consumers under status quo is (10112)*(116854.835741-50000)*(1/2) = 338018050 for DAC 
-# 338018050/2136895376
-# 15.8 %
-# 84.2 %
+# Benefit to consumers under status quo:
+# 86.32 percent for non-dac
+# 13.66 percent for dac
+2136895270/(2136895270+338017973) #  0.8634223
+338017973/(2136895270+338017973) # 0.1365777
 
   
 ```
 
-
 5. Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
-(a) The amount of EVs produced and consumed (b) The price of EVs
-(c) Overall welfare of non-DAC consumers (d) Overall welfare of DAC consumers
+
+The optimal EV tax is 18,900 per vehicle. The effects of this tax are:
+
+(a) The amount of EVs produced and consumed
+The number of EVs produced would decrease from 49671.58 to 39892.17, resulting in a difference of about 9,779 vehicles.
+
+(b) The price of EVs
+The price of EVs would would increase by 18,900 each from 50,000 to 68,900 dollars. 
+
+(c) Overall welfare of non-DAC consumers 
+The consumer benefit for non-DAC consumers is now 1,454,620,139. This is down from 2,136,895,270 resulting in a decrease of 682,275,131 dollars.
+
+(d) Overall welfare of DAC consumers
+The consumer benefit for DAC consumers is now 173,915,767. This is down from 338,017,973 resulting in a decrease of 164,102,206 dollars.
+
 (e) EV producers
+
 (f) Total environmental damage
+184,830,888
 (g) Total tax revenue generated
+184,830,888 dollars
+
 
 ```{r}
-#Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining externality. Noting that recent research has shown that DACs are far more likely to contain mining activity, assume that the mining externality is borne entirely by the DAC group. What would be the effects of this tax on:
-# (a) The amount of EVs produced and consumed (b) The price of EVs
-# (c) Overall welfare of non-DAC consumers (d) Overall welfare of DAC consumers
-# (e) EV producers
-# (f) Total environmental damage
-# (g) Total tax revenue generated
-
 # New supply curve
 # p = 1.006612*Q + 18,900
 
-# a) Quantity of EVs will decrease
-# b) 50000 + 18,900
+# supply original
+supply_original <- function(q) {
+  p = 1.006612*q
+  return(p)
+}
 
+# new supply
+supply_new <- function(q) {
+  p = 1.006612*q + 18900
+  return(p)
+}
 
+#q_agg at 50,000 = 75543.04 - 0.5174292*50000 = 49671.58
+#q_agg at 50000 + 18900 = 75543.04 - 0.5174292*68900 = 39892.17
+# 49671.58- 39892.17 = 9779.41
 
+agg_demand(50000) - agg_demand(68900) #  9779.412
+
+# c) Overall welfare of non-DAC consumers:
+non_dac_demand_q(68900)*(158034.280239-68900)*(1/2) # 1454620139
+2136895270 - 1454620139 # 682275131
+
+# d) Overall welfare of DAC consumers:
+dac_demand_q(68900)*(116854.835741-68900)*(1/2) # 173915767
+338017973-173915767 # 164102206
+# Now assume the mining externality applies only to dac
+env_tax <- agg_demand(68900)*18900 # 753961894
+
+-753961894 + 173915767 = -580046127
+
+# e) Benefit to producers
+(1/2)*(68900)*(agg_demand(68900)) # 1374285039
+ 1241789394 - 1374285039 #  -132495645
+ 
+# f) Total environmental damage
+total_damage <- (18900 * agg_demand(50000)) - env_tax
+# 184830888
+
+# g) Total tax revenue generated is the same as the total environmental damage because MEC is stable
 
 ```
 
@@ -184,7 +260,6 @@ Non-dac consumers get 84.2 % of consumer benefit
 # Now, assume that all revenue from the EV tax will be redistributed to the consumers in proportion to their pre-tax consumption. For example, if 80% of the EVs were consumed by non-DAC consumers, then they get 80% of the tax revenue. Additionally, consider that emerging scientific evidence suggests the true environmental damages from lithium mining may be much higher than $300. For a range of values of external costs per kg of lithium ($350, $400, $450, and $500 per kg), calculate the effects of an EV tax on:1
 # (a) Overall welfare of non-DAC consumers (b) Overall welfare of DAC consumers
 # (c) EV producers 
-
 
 
 
