@@ -470,20 +470,18 @@ ca_ev &lt;- read_csv(here(&#39;HW3_data.csv&#39;)) %&gt;%
 long_ca_ev &lt;- pivot_longer(ca_ev, cols = q_dac:q_non_dac, names_to = &#39;location&#39;, values_to = &#39;quantity&#39;)</code></pre>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<ol style="list-style-type: decimal">
-<li>Run linear regressions (with an intercept) to estimate the demand
+<p><em>Run linear regressions (with an intercept) to estimate the demand
 curves for DAC and non-DAC consumers. What are 2-3 reasons you can think
-that may explain the differences in demand you estimate?</li>
-</ol>
+that may explain the differences in demand you estimate?</em></p>
 <p><strong>Demand curve for DAC:</strong> p = -6.611437*q +
 116854.835741</p>
 <p><strong>Demand curve for non-DAC:</strong> p = -2.730926*q +
 158034.280239</p>
-<p><em>Visualizing the data shows that non-DAC groups demand more EVs
-than DAC groups. This may be because non-DAC groups have higher incomes
-and other monetary resources than DAC groups. It could also be because
-the local infrastructure is better developed for EV charging stations,
-thereby increasing demand further.</em></p>
+<p><strong>Visualizing the data shows that non-DAC groups demand more
+EVs than DAC groups. This may be because non-DAC groups have higher
+incomes and other monetary resources than DAC groups. It could also be
+because the local infrastructure is better developed for EV charging
+stations, thereby increasing demand further.</strong></p>
 <pre class="r"><code># Run linear regressions
 dac_model &lt;- lm(price_dollars ~ quantity, data = filter(long_ca_ev, location == &#39;q_dac&#39;))
 dac_model$coefficients
@@ -504,18 +502,18 @@ ggplot(data = long_ca_ev, aes(x = quantity, y = price_dollars, col = location)) 
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p>One kilogram (kg) of lithium is estimated to cause $300 dollars worth
-of damage in health costs to local communities living near mines. Each
-EV requires a lithium ion battery containing 63kg of lithium. Assuming
-there are no other externalities caused by EV production, what is the
-marginal externality cost per EV produced?</p>
+<p><em>One kilogram (kg) of lithium is estimated to cause $300 dollars
+worth of damage in health costs to local communities living near mines.
+Each EV requires a lithium ion battery containing 63kg of lithium.
+Assuming there are no other externalities caused by EV production, what
+is the marginal externality cost per EV produced?</em></p>
 <p><strong>18,900 dollars per EV</strong></p>
 <pre class="r"><code># Marginal externaliity cost is 63 kg * 300 dollars = 18,900 dollars per EV
 63*300</code></pre>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
-<p>What is the aggregate annual demand curve for EVs?</p>
+<p><em>What is the aggregate annual demand curve for EVs?</em></p>
 <p><strong>If Price &gt; 116854.835741: q = (158034.280239 -
 p)/2.730926</strong> <em>or in terms of p:</em> <strong>p = -2.730926(q)
 + 158034.280239</strong></p>
@@ -629,13 +627,13 @@ benefit</strong></p>
 </div>
 <div id="question-5" class="section level2">
 <h2>Question 5</h2>
-<p>Derive the optimal EV tax (in $ per vehicle) to internalize the
+<p><em>Derive the optimal EV tax (in $ per vehicle) to internalize the
 lithium mining externality. Noting that recent research has shown that
 DACs are far more likely to contain mining activity, assume that the
 mining externality is borne entirely by the DAC group. What would be the
-effects of this tax on:</p>
-<p>The optimal EV tax is 18,900 per vehicle. The effects of this tax
-are:</p>
+effects of this tax on:</em></p>
+<p><strong>The optimal EV tax is 18,900 per vehicle. The effects of this
+tax are:</strong></p>
 <ol style="list-style-type: lower-alpha">
 <li><p>The amount of EVs produced and consumed <strong>The number of EVs
 produced would decrease from 49671.58 to 39892.17, resulting in a
@@ -653,9 +651,9 @@ damage of 753,961,894 from this number and get a negative welfare value
 of 580,046,127 dollars.</strong></p></li>
 <li><p>EV producers <strong>The benefit to producers is now
 1,374,285,039</strong></p></li>
-<li><p>Total environmental damage</p></li>
-<li><p>Total tax revenue generated <strong>184,830,888
+<li><p>Total environmental damage <strong>753,961,894
 dollars</strong></p></li>
+<li><p>Total tax revenue generated <strong>753,961,894</strong></p></li>
 </ol>
 <pre class="r"><code># New supply curve
 # p = 1.006612*Q + 18,900
@@ -695,36 +693,78 @@ env_cost_plus_tax &lt;- agg_demand(68900)*18900 # 753961894
  1241789394 - 1374285039 #  -132495645
  
 # f) Total environmental damage
+ env_cost_plus_tax
 
-# g) Total tax revenue generated is </code></pre>
+# g) Total tax revenue generated should be the same as the total damage.</code></pre>
 </div>
 <div id="question-6" class="section level2">
 <h2>Question 6</h2>
-<p>Now, assume that all revenue from the EV tax will be redistributed to
-the consumers in proportion to their pre-tax consumption. For example,
-if 80% of the EVs were consumed by non-DAC consumers, then they get 80%
-of the tax revenue. Additionally, consider that emerging scientific
-evidence suggests the true environmental damages from lithium mining may
-be much higher than $300. For a range of values of external costs per kg
-of lithium ($350, $400, $450, and $500 per kg), calculate the effects of
-an EV tax on:</p>
-<ol style="list-style-type: lower-alpha">
-<li>Overall welfare of non-DAC consumers</li>
-<li>Overall welfare of DAC consumers</li>
-<li>EV producers</li>
-</ol>
-<pre class="r"><code># We highly recommend writing a function that takes as an input the marginal external cost and produces as output the welfare of the three groups (non-DAC consumers, DAC consumers, and EV producers) so that you can automatically answer items (a)-(c) without recomputing by hand each time.
-
-mec_calc &lt;- function(damage) {
+<p><em>Now, assume that all revenue from the EV tax will be
+redistributed to the consumers in proportion to their pre-tax
+consumption. For example, if 80% of the EVs were consumed by non-DAC
+consumers, then they get 80% of the tax revenue. Additionally, consider
+that emerging scientific evidence suggests the true environmental
+damages from lithium mining may be much higher than $300. For a range of
+values of external costs per kg of lithium ($350, $400, $450, and $500
+per kg), calculate the effects of an EV tax on:</em></p>
+<p>For this question we will go through the same procedure as question 5
+but use different values that reflect other scenarios where the external
+costs of lithium are larger. Below shows how the EV tax changes when the
+external cost of lithium increases.</p>
+<p>when external cost of lithium = $300, then the EV tax is 18,900
+dollars</p>
+<p>when external cost of lithium = $350, then the EV tax is 22,050
+dollars</p>
+<p>when external cost of lithium = $400, then the EV tax is 25,200
+dollars</p>
+<p>when external cost of lithium = $450, then the EV tax is 28,350
+dollars</p>
+<p>when external cost of lithium = $500, then the EV tax is 31,500
+dollars</p>
+<p><strong>(a) Overall welfare of non-DAC consumers:</strong></p>
+<p>for 350 external cost: <strong>1,168,749,542 dollars</strong></p>
+<p>for 400 external cost: <strong>1,084,684,762 dollars</strong></p>
+<p>for 450 external cost: <strong>1,003,757,126 dollars</strong></p>
+<p>for 500 external cost: <strong>925,966,634 dollars</strong></p>
+<p><strong>(b) Overall welfare of DAC consumers:</strong></p>
+<p>for 350 external cost: <strong>20,734,984 dollars</strong></p>
+<p>for 400 external cost: <strong>17,921,930 dollars</strong></p>
+<p>for 450 external cost: <strong>15,313,853 dollars</strong></p>
+<p>for 500 external cost: <strong>12,910,753 dollars</strong></p>
+<p><strong>(c) EV producers</strong></p>
+<p>for 350 external cost: <strong>1,378,397,977 dollars</strong></p>
+<p>for 400 external cost: <strong>1,377,376,723 dollars</strong></p>
+<p>for 450 external cost: <strong>1,371,221,278 dollars</strong></p>
+<p>for 500 external cost: <strong>1,359,931,642 dollars</strong></p>
+<pre class="r"><code>mec_calc &lt;- function(damage) {
    mec = damage * 63
    return(mec)
 }
 
-mec_calc(300)
-mec_calc(350)
-mec_calc(400)
-mec_calc(450)
-mec_calc(500)</code></pre>
+mec_300 &lt;- mec_calc(300) + 50000
+mec_350 &lt;- mec_calc(350) + 50000
+mec_400 &lt;- mec_calc(400) + 50000
+mec_450 &lt;- mec_calc(450) + 50000
+mec_500 &lt;- mec_calc(500) + 50000
+
+
+# Non-dac calcs
+non_dac_demand_q(mec_350)*(158034.280239-mec_350)*(1/2)*(0.8634223) #1168749542
+non_dac_demand_q(mec_400)*(158034.280239-mec_400)*(1/2)*(0.8634223) #1084684762
+non_dac_demand_q(mec_450)*(158034.280239-mec_450)*(1/2)*(0.8634223) #1003757126
+non_dac_demand_q(mec_500)*(158034.280239-mec_500)*(1/2)*(0.8634223) #925966634
+
+# Dac calcs
+dac_demand_q(mec_350)*(116854.835741-mec_350)*(1/2)*(0.1365777) #20734984
+dac_demand_q(mec_400)*(116854.835741-mec_400)*(1/2)*(0.1365777) #17921930
+dac_demand_q(mec_450)*(116854.835741-mec_450)*(1/2)*(0.1365777) #15313853
+dac_demand_q(mec_500)*(116854.835741-mec_500)*(1/2)*(0.1365777) #12910753
+
+# Producer calcs
+(1/2)*(mec_350)*(agg_demand(mec_350)) #1378397977
+(1/2)*(mec_400)*(agg_demand(mec_400)) #1377376723
+(1/2)*(mec_450)*(agg_demand(mec_450)) #1371221278
+(1/2)*(mec_500)*(agg_demand(mec_500)) #1359931642</code></pre>
 </div>
 <div id="question-7" class="section level2">
 <h2>Question 7</h2>
