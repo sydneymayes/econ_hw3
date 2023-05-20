@@ -179,8 +179,9 @@ env_cost <- 18900 * agg_demand(50000)  # 938792782
 
 ## Question 4
 How is the current consumer benefit divided between DAC and non-DAC consumers?
-Dac consumers get 13.66 % of consumer benefit
-Non-dac consumers get 86.32 % of consumer benefit
+
+**Dac consumers get 13.66 percent of consumer benefit**
+**Non-dac consumers get 86.32 percent of consumer benefit**
 
 ```{r}
 # Benefit to consumers under status quo:
@@ -198,23 +199,24 @@ Derive the optimal EV tax (in $ per vehicle) to internalize the lithium mining e
 The optimal EV tax is 18,900 per vehicle. The effects of this tax are:
 
 (a) The amount of EVs produced and consumed
-The number of EVs produced would decrease from 49671.58 to 39892.17, resulting in a difference of about 9,779 vehicles.
+**The number of EVs produced would decrease from 49671.58 to 39892.17, resulting in a difference of about **9,779 vehicles**
 
 (b) The price of EVs
-The price of EVs would would increase by 18,900 each from 50,000 to 68,900 dollars. 
+**The price of EVs would would increase by 18,900 each from 50,000 to 68,900 dollars. **
 
 (c) Overall welfare of non-DAC consumers 
-The consumer benefit for non-DAC consumers is now 1,454,620,139. This is down from 2,136,895,270 resulting in a decrease of 682,275,131 dollars.
+**The consumer benefit for non-DAC consumers is now 1,454,620,139. This is down from 2,136,895,270 resulting in a decrease of 682,275,131 dollars.**
 
 (d) Overall welfare of DAC consumers
-The consumer benefit for DAC consumers is now 173,915,767. This is down from 338,017,973 resulting in a decrease of 164,102,206 dollars.
+**The consumer benefit for DAC consumers is now 173,915,767. Since the mining externality applies only to DAC consumers, we therefore subtract the total environmental damage of 753,961,894 from this number and get a negative welfare value of 580,046,127 dollars.**
 
 (e) EV producers
+**The benefit to producers is now 1,374,285,039**
 
 (f) Total environmental damage
-184,830,888 dollars
+
 (g) Total tax revenue generated
-184,830,888 dollars
+**184,830,888 dollars**
 
 
 ```{r}
@@ -256,10 +258,8 @@ env_cost_plus_tax <- agg_demand(68900)*18900 # 753961894
  1241789394 - 1374285039 #  -132495645
  
 # f) Total environmental damage
-total_damage <- env_cost - env_cost_plus_tax
-# 184830888
 
-# g) Total tax revenue generated is the same as the total environmental damage because MEC is stable
+# g) Total tax revenue generated is 
 
 ```
 
