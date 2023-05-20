@@ -79,7 +79,7 @@ What is the supply curve for EVs?
 **p = 1.006612(q)**
 
 What is the “benefit” to consumers under the status quo? 
-**Aggregate benefit to consumers (dac + nondac) is 2,474,913,243**
+**Aggregate benefit to consumers (dac + nondac) is 2,474,913,243 dollars**
 
 What is the “benefit” to producers under the status quo?
 **Aggregate benefit to producers (dac + nondac) is 1,241,789,394 dollars**
@@ -181,6 +181,7 @@ env_cost <- 18900 * agg_demand(50000)  # 938792782
 How is the current consumer benefit divided between DAC and non-DAC consumers?
 
 **Dac consumers get 13.66 percent of consumer benefit**
+
 **Non-dac consumers get 86.32 percent of consumer benefit**
 
 ```{r}
@@ -199,7 +200,7 @@ How is the current consumer benefit divided between DAC and non-DAC consumers?
 **The optimal EV tax is 18,900 per vehicle. The effects of this tax are:**
 
 (a) The amount of EVs produced and consumed
-**The number of EVs produced would decrease from 49671.58 to 39892.17, resulting in a difference of about **9,779 vehicles**
+**The number of EVs produced would decrease from 49671.58 to 39892.17, resulting in a difference of about 9,779 vehicles**
 
 (b) The price of EVs
 **The price of EVs would would increase by 18,900 each from 50,000 to 68,900 dollars. **
@@ -217,7 +218,7 @@ How is the current consumer benefit divided between DAC and non-DAC consumers?
 **753,961,894 dollars**
 
 (g) Total tax revenue generated
-**753,961,894**
+**753,961,894 dollars**
 
 
 ```{r}
